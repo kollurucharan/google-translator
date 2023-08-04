@@ -1,0 +1,64 @@
+<html>
+
+<head>
+    <title>
+        <h1>Using API call</h1>
+    </title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <br><br>
+    <h1 style="text-align: center;">Language Translate</h1>
+    <form style="background-color: lightblue; width:fit-content; padding: 100; margin-left: 150;">
+        <div id="s">
+
+            <label for="source">source</label>
+            <input type="text" id="s1" name="intext">
+
+            <label for="destination" style="margin-left:100px">destination</label>
+            <select id="destination">
+                <option value="ta">tamil</option>
+                <option value="th">thatila</option>
+                <option value="te">telugu</option>
+            </select>
+
+        </div>
+        <br><br>
+        <input type="button" onclick="loadData()" value="submit" ">
+        <br><br>
+        <div id="o">
+
+            <label for="o1" style="margin-left:200px">output</label>
+           <input type="text" id="o1" name="outtext">
+        </div>
+       
+    </form>
+    <script>
+        var x = new XMLHttpRequest();
+        function loadData() {
+
+            var indata = document.getElementById("s1").value;
+            var inlang = document.getElementById("destination").value;
+            console.log(indata);
+            console.log(inlang);
+            x.open("POST", 'https://google-translate1.p.rapidapi.com/language/translate/v2', "true");
+            x.setRequestHeader(  'content-type', 'application/x-www-form-urlencoded');
+            x.setRequestHeader( 'X-RapidAPI-Key', 'b7839f3455mshdea0177d1f9dba1p194d4ejsn4e9f67bb0081');
+            x.setRequestHeader( 'X-RapidAPI-Host', 'google-translate1.p.rapidapi.com');
+            x.onreadystatechange = data;
+            x.send("q=" + indata + "&target=" + inlang);
+        }
+        function data() {
+            if (x.readyState == 4 && x.status == 200) {
+                console.log(x.responseText);
+                var xd = JSON.parse(x.responseText); 
+                document.getElementById("o1").value= xd.data.translations[0].translatedText;
+            }
+        }
+    </script>
+</body>
+
+</html>
